@@ -5,11 +5,13 @@
     margin: 0;
     box-sizing: border-box;
 }
+/*  ====================== GLOBAL STYLES ====================== */
 
 html {
     font-family: 'Nunito Sans', sans-serif;
     font-size: 10px;
 }
+
 body {
     display: flex;
     align-items: center;
@@ -28,16 +30,21 @@ a {
     text-decoration: none;
 }
 
+sup {
+    font-style: italic;
+    font-weight: 400;
+}
+
 /*  ====================== POP STYLES ====================== */
 .pop {
     position: relative;
-    background: #fff;
+    background:#f6f5f6;
     max-width:45rem;
-    width: fit-content;
+    width:40rem;
     height: fit-content;
     border-radius: 1rem;
     font-size: 2rem;
-    padding: 3rem;
+    padding: 2rem;
     display: flex;
     flex-direction: column;
     gap: 2rem;
@@ -58,12 +65,13 @@ a {
     left: 95%;
     top: -2rem;
     border: 1px solid rgba(0, 0, 0, 0.3);
+    cursor: pointer;
 }
 
 .pop__close i{
     font-size: 2rem;
     font-weight: 700;
-    color: #1e1e1e;
+    color: rgba(0, 0, 0, 0.3);
 }
 
 
@@ -94,7 +102,7 @@ a {
     position: absolute;
     top: 95%;
     left: 50%;
-    background-color: #fff;
+    background-color: #f6f5f6;
     transform: rotate(45deg);
     padding: 1.5rem;
     /* z-index: -1000; */
@@ -120,7 +128,8 @@ a {
 }
 
 .desc q{
-    font-weight: 300;
-    font-size: 2rem;
+    font-weight: 600;
+    font-size: 1.5rem;
+    color: #363636;
 }
 
