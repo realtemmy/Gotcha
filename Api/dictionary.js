@@ -92,3 +92,6 @@ Data.getWords('laugh').then((data)=>{
         }]
     })
 })
+
+
+module.exports = Dictionary
