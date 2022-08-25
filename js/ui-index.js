@@ -1,4 +1,4 @@
-import findMeaning from "../Api/dictionary.js";
+import findMeaning from "../Api/dataAccess.js";
 console.log(await findMeaning("hello"));
 
 // const apiData = () => {
@@ -29,7 +29,7 @@ console.log(await findMeaning("hello"));
 //     ],
 //   };
 // };
-
+ 
 const response = apiData();
 
 const destructuredData = () => {
