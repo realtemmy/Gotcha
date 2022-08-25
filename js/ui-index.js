@@ -1,4 +1,4 @@
-import findMeaning from "../Api/dataAccess.js";
+import findMeaning from "../Application/dataAccess.js";
 console.log(await findMeaning("hello"));
 
 // const apiData = () => {
