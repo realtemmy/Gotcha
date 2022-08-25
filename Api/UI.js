@@ -1,4 +1,4 @@
-import findMeaning from "../DataAccess/dictionary.js";
+import findMeaning from "../Application/dataAccess.js";
 
 const body = document.querySelector("body");
 
