@@ -1,5 +1,45 @@
 import findMeaning from "../Api/dictionary.js";
-console.log(await findMeaning("hello"));
+
+const body = document.querySelector("body");
+
+const getHighlightedWord = async () => {
+  const selectedText = handleSelection();
+
+  if(selectedText.length == 1){
+    return
+  }else{
+    const { response } = await findMeaning(selectedText)
+    destructuredData(response);
+  }
+  
+}
+
+body.addEventListener("dblclick", getHighlightedWord);
+
+function handleSelection() {
+  let selectedTxt = window.getSelection().toString();
+  return selectedTxt;
+}
+
+const destructuredData = (response) => {
+  const { hasError, errormessage, result } = response[0];
+
+  const { word, phonetic, audio, definition } = result[0];
+
+  const def = definition.forEach((_, idx)=> idx < 2 );
+
+  console.log(word);
+};
+
+
+
+
+
+/*
+for display position, innerHeight and width / 2..
+
+so it'd always pop up at the center of the screen.
+*/ 
 
 // const apiData = () => {
 //   return {
@@ -29,34 +69,3 @@ console.log(await findMeaning("hello"));
 //     ],
 //   };
 // };
-
-const response = apiData();
-
-const destructuredData = () => {
-  const { hasError, errorMessage, result } = response;
-
-  const { word, phonetics, audio, definitions } = result[0];
-
-  const { partOfSpeech, meaning, example, synonyms, antonyms } = definitions[0];
-
-  const syn = synonyms.filter((_, idx)=> idx < 2);
-
-};
-destructuredData(response)
-/*
-for display position, innerHeight and width / 2..
-
-so it'd always pop up at the center of the screen.
-*/ 
-
-const body = document.querySelector("body");
-
-body.addEventListener('click', () => {
-  const selectedTxt = handleSelection();
-  console.log(selectedTxt);
-})
-
-function handleSelection() {
-  let selectedTxt = window.getSelection().toString();
-  return selectedTxt
-}
