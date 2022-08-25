@@ -1,6 +1,12 @@
 // document.body.style.backgroundColor = 'blue';
 // document.body.style.color = "red";
 
+// const responseData = require('../Api/dictionary');
+
+import findMeaning from "../Api/dictionary.js";
+console.log(await findMeaning("hello"));
+
+// console.log(responseData)
 
 const apiData = () => {
   return {
@@ -66,3 +72,7 @@ for display position, innerHeight and width / 2..
 
 so it'd always pop up at the center of the screen.
 */ 
+
+const closePop_btn = document.querySelector(".pop__close");
+
+console.log(closePop_btn);

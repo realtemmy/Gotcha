@@ -1,16 +1,14 @@
 class Dictionary{
-    constructor () {
-        this.input = document.querySelector('.input')
-    }
 
     async getWords(words) {
         const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${words}`)
 
-        const dataResponse = await response.json()
+        const dataResponse = await response.json();
 
-        return {
-            dataResponse
-        }
+        let arr = dataResponse[0];
+
+        return arr;
+
     }
 
     getAudio(phonetics){
@@ -34,64 +32,36 @@ class Dictionary{
 }
 
 
-const Data = new Dictionary
-const uii = new UI
+const findMeaning = async (word)=>{
+    const dictionary = new Dictionary
 
-Data.getWords('laugh').then((data)=>{
+    let response = await dictionary.getWords(word)
 
-    uii.outputUi(data.dataResponse[0])
-    let arr = data.dataResponse[0]
 
-    let audio = Data.getAudio(arr.phonetics)
-    // let meanings = Data.getDefinitions(arr.meanings)
-    // // arr.phonetics.forEach((data)=>{
-    // //     audio += `${data.audio}`
-    // // })
+    let audio = dictionary.getAudio(response.phonetics);
 
-    // // let phonetic_counter = arr.phonetics.length - 1;
-    // // while (phonetic_counter >= 0) {
-        
-    // //     if(arr.phonetics[phonetic_counter].audio !== ""){
-    // //         audio = arr.phonetics[phonetic_counter].audio
-    // //         break;
-    // //     };
-
-    // //     phonetic_counter--;
-    // //     continue 
-        
-    // // }
-
-    let meanings = ''
-    arr.meanings.forEach(element => {
-        let defined = ''
-        element.definitions.map((definition)=>{
-            defined += definition.definition
-        })
-        meanings += `partofSpeech: ${element.partOfSpeech}, Definition: ${defined}`
-        // console.log(defined);
-    });
-
-    console.log(data.dataResponse)
-    console.log({ 
-        response : [{
-            hasError: false,
-            errormessage: null, 
-            result: [
+    // console.log(dataResponse);
+    return {
+      response: [
+        {
+          hasError: false,
+          errormessage: null,
+          result: [
+            {
+              word: `${response.word}`,
+              phonetic: `${response.phonetic}`,
+              audio: audio,
+              definition: [
                 {
-                    word: `${arr.word}`,
-                    phonetic: `${arr.phonetic}`,
-                    audio: audio,
-                    definition: [
-                        {
-                           1: [meanings]
-                        }
-                    ]
+                //   1: [meanings],
                 },
-            ]
-            
-        }]
-    })
-})
+              ],
+            },
+          ],
+        },
+      ],
+    };
+}
 
 
-module.exports = Dictionary
+export default findMeaning 
