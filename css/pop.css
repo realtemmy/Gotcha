@@ -34,11 +34,13 @@ sup {
     font-style: italic;
     font-weight: 400;
 }
-
+.wrapper {
+    display: none;
+}
 /*  ====================== POP STYLES ====================== */
 .pop {
     position: relative;
-    background:#f6f5f6;
+    background: #f6f6f6;
     max-width:45rem;
     width:40rem;
     height: fit-content;
@@ -52,6 +54,7 @@ sup {
     opacity: 0.9;
     z-index: 999;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 5px 2rem 0px;
+    /* display: none; */
 }
 
 .pop__close {
@@ -105,7 +108,6 @@ sup {
     background-color: #f6f5f6;
     transform: rotate(45deg);
     padding: 1.5rem;
-    /* z-index: -1000; */
 }
 
 .pop__bottom a{
@@ -133,3 +135,39 @@ sup {
     color: #363636;
 }
 
+.not-found__img {
+    width: 20rem;
+    height: 20rem;
+}
+
+.not-found__img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/*  ====================== NOT FOUND STYLES ====================== */
+.not-found{
+    background: transparent;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.not-found__img img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    overflow: none;
+    filter: brightness(97%);
+}
+.not-found h1 {
+    font-size: 3rem;
+}
+
+.not-found p {
+    font-size: 2.5rem;
+    font-weight: 700;
+}
