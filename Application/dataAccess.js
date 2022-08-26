@@ -14,20 +14,20 @@ const findMeaning = async (word) => {
     let audio = dictionary.getAudio(response.phonetics);
 
     return {
-        response: [
+        response: 
             {
                 hasError: false,
                 errormessage: null,
-                result: [
+                result:
                     {
                         word: `${response.word}`,
                         phonetic: `${response.phonetic}`,
                         audio: audio,
                         definition: meaning
                     },
-                ],
+                
             },
-        ],
+        
     };
 }
 
