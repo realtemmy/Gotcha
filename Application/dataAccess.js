@@ -5,13 +5,19 @@ const findMeaning = async (word) => {
 
     let response = await dictionary.getData(word)
 
-    if (response.hasError) {
-        return response
+    if (!response.status) {
+        return { 
+            response: {
+                hasError:true,
+                errorMessage : response.data.message,
+                result: null
+            }
+        }
     }
 
-    let meaning = dictionary.getInfo(response.meanings);
+    let meaning = dictionary.getInfo(response.data.meanings);
 
-    let audio = dictionary.getAudio(response.phonetics);
+    let audio = dictionary.getAudio(response.data.phonetics);
 
     return {
         response: 
@@ -20,8 +26,8 @@ const findMeaning = async (word) => {
                 errormessage: null,
                 result:
                     {
-                        word: `${response.word}`,
-                        phonetic: `${response.phonetic}`,
+                        word: `${response.data.word}`,
+                        phonetic: `${response.data.phonetic}`,
                         audio: audio,
                         definition: meaning
                     },

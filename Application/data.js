@@ -8,18 +8,13 @@ class DictionaryApi {
 
             if (response.status !== 200) {
                 dataResponse = await response.json();
-                return {
-                    hasError:true,
-                    errorMessage : dataResponse.message,
-                    result: null
-                }
+               return {status: false, data: dataResponse}
             }
 
             dataResponse = await response.json();
     
-            let arr = dataResponse[0];
-    
-            return arr;
+            return {status: true, data: dataResponse[0]};
+
         }catch (error) {
             return error
         }
