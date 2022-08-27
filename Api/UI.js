@@ -31,7 +31,7 @@ const destructuredData = (response, selectedText) => {
 
   const { word, phonetic, audio, definition } = result;
   console.log(audio)
-  playAudio(audio)
+  // playAudio(audio)
   const defOne = definition[0];
   const defTwo = definition[1];
 
@@ -124,16 +124,25 @@ const successUiDisplay = (word, phonetic, audio, defOne, defTwo) => {
   `;
 };
 
-const playAudio = (audio) => {
-  const audioTag = document.createElement("audio");
-  audioTag.id = "sound";
-  audioTag.src = audio;
-  console.log(audio)
+const closePopUp = () =>{
+  console.log('close page')
+  const body = document.querySelector("body");
+  body.innerHTML = ''
+}
 
-  console.log(audioTag);
-};
-const audioBtn = document.querySelector(".play-pron");
-audioBtn.addEventListener("click", () => playAudio());
+const closeBtn = document.querySelector('.pop__close');
+closeBtn.addEventListener('click', closePopUp)
+
+// const playAudio = (audio) => {
+//   const audioTag = document.createElement("audio");
+//   audioTag.id = "sound";
+//   audioTag.src = audio;
+//   console.log(audio)
+
+//   console.log(audioTag);
+// };
+// const audioBtn = document.querySelector(".play-pron");
+// audioBtn.addEventListener("click", () => playAudio());
 
 /*
 for display position, innerHeight and width / 2..
