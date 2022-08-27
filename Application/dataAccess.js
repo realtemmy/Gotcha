@@ -23,7 +23,7 @@ const findMeaning = async (word) => {
         response: 
             {
                 hasError: false,
-                errormessage: null,
+                errorMessage: null,
                 result:
                     {
                         word: `${response.data.word}`,
