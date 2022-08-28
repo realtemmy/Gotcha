@@ -1,8 +1,9 @@
 import findMeaning from "../Application/dataAccess.js";
+const body = document.querySelector('body');
+const main = document.querySelector("main");
 
-const body = document.querySelector("body");
-
-const getHighlightedWord = async () => {
+// To get highlighted word from the UI
+const getHighlightedWord = async (e) => {
   const selectedText = handleSelection();
 
   if (selectedText.length == 1) {
@@ -14,32 +15,17 @@ const getHighlightedWord = async () => {
   destructuredData(response, selectedText);
 };
 
-body.addEventListener("dblclick", getHighlightedWord);
+main.addEventListener("dblclick", getHighlightedWord);
 
 function handleSelection() {
   let selectedTxt = window.getSelection().toString();
   return selectedTxt;
 }
 
-const destructuredData = (response, selectedText) => {
-  const { hasError, errorMessage, result } = response;
-
-  if (!result) {
-    errorUiDisplay(selectedText);
-    return;
-  }
-
-  const { word, phonetic, audio, definition } = result;
-  console.log(audio)
-  const defOne = definition[0];
-  const defTwo = definition[1];
-
-  successUiDisplay(word, phonetic, defOne, defTwo);
-};
-
+// Error display on the UI
 const errorUiDisplay = (selectedText) => {
-  const body = document.querySelector("body");
-  body.innerHTML = `
+//   const main = document.querySelector("main");
+  main.innerHTML = `
   <div class="pop">
     <span class="pop__close" title="button">
             <i class="bi bi-x-lg"></i>
@@ -55,9 +41,10 @@ const errorUiDisplay = (selectedText) => {
   `;
 };
 
+// Meaning of word display
 const successUiDisplay = (word, phonetic, audio, defOne, defTwo) => {
-      const body = document.querySelector("body");
-      body.innerHTML = `
+//   const main = document.querySelector("main");
+  main.innerHTML = `
   <div class="pop">
     <span class="pop__close" title="button">
             <i class="bi bi-x-lg"></i>
@@ -123,15 +110,57 @@ const successUiDisplay = (word, phonetic, audio, defOne, defTwo) => {
   `;
 };
 
-const closeModalPopUp = () =>{
-    const body = document.querySelector("body");
-    body.innerHTML = ''
+// Close meaning of word pop up
+const closeModalPopUp = () => {
+  const main = document.querySelector("main");
+  main.innerHTML = "";
+};
+const closeBtn = document.querySelector(".pop__close");
+closeBtn.addEventListener("click", closeModalPopUp);
+
+// To get the audio meaning word searched for
+const playAudio = (audioUrl) => {
+  const audioEl = document.createElement("audio");
+  audioEl.id = "audio";
+  audioEl.src = audioUrl;
+  audioEl.play();
+};
+
+const playBtn = document.querySelector(".play-pron");
+playBtn.addEventListener("click", playAudio);
+
+const getClickPosition = (e) =>{
+  const xPosition = e.clientX - (main.offsetWidth / 2)
+  const yPosition = e.clientY - (main.offsetHeight / 2)
+
+  const translateValue =
+    "translate(" + xPosition + "px, " + yPosition + "px)";
+  main.style.transform = translateValue;
+
+  console.log(translateValue);
 }
-const closeBtn = document.querySelector('.pop__close');
-closeBtn.addEventListener('click', closeModalPopUp)
 
-/*
-for display position, innerHeight and width / 2..
 
-so it'd always pop up at the center of the screen.
-*/
+body.addEventListener('dblclick', getClickPosition)
+
+// display position on the UI
+
+// Destructure information coming from the API
+const destructuredData = (response, selectedText) => {
+  const { hasError, errorMessage, result } = response;
+
+  if (!result) {
+    errorUiDisplay(selectedText);
+    return;
+  }
+
+  const { word, phonetic, audio, definition } = result;
+//   playAudio(audio);
+  console.log(audio);
+  const defOne = definition[0];
+  const defTwo = definition[1];
+
+//   successUiDisplay(word, phonetic, defOne, defTwo);
+
+    return audio;
+};
