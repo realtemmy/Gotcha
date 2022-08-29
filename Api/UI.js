@@ -130,14 +130,15 @@ const playBtn = document.querySelector(".play-pron");
 playBtn.addEventListener("click", playAudio);
 
 const getClickPosition = (e) =>{
-  const xPosition = e.clientX - (main.offsetWidth / 2)
-  const yPosition = e.clientY - (main.offsetHeight / 2)
+  const xPosition = (e.clientX - (main.offsetWidth / 2) * 2.25)
+  const yPosition = (e.clientY - (main.offsetHeight / 2) * 3.3)
 
   const translateValue =
     "translate(" + xPosition + "px, " + yPosition + "px)";
   main.style.transform = translateValue;
 
   console.log(translateValue);
+
 }
 
 
