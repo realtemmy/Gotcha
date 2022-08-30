@@ -34,9 +34,9 @@ sup {
     font-style: italic;
     font-weight: 400;
 }
-/* .wrapper {
-    display: none;
-} */
+.wrapper {
+    /* display: none; */
+}
 /*  ====================== POP STYLES ====================== */
 .pop {
     position: relative;
@@ -75,8 +75,12 @@ sup {
     font-size: 2rem;
     font-weight: 700;
     color: rgba(0, 0, 0, 0.3);
+    transition: all .5s ease;
 }
 
+.pop__icon i {
+    transition: all .5s ease;
+}
 
 .pop__title {
     font-size: 2.4rem;
@@ -171,4 +175,25 @@ sup {
 .not-found p {
     font-size: 2.5rem;
     font-weight: 700;
+}
+
+.play-pron {
+    cursor: pointer;
+}
+
+
+/*  ====================== HOVER STATES ====================== */
+
+.pop__close:hover {
+    background-color: #ed1d1d;
+    border-color: #ed1d1d;
+}
+
+.pop__close:hover i {
+    color: #ffffff;
+    font-weight: 700;
+}
+
+.pop__icon:hover i{
+    color: #ff00c7;
 }
