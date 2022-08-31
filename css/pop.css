@@ -24,6 +24,11 @@ i {
     font-weight: 700;
 }
 
+.alt {
+    font-size: 1.4rem;
+    color: #4d4d4d;
+}
+
 a {
     color: #1e1e1e;
     opacity: .5;
