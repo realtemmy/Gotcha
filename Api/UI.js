@@ -1,6 +1,6 @@
 import findMeaning from "../Application/dataAccess.js";
 const body = document.querySelector('body');
-const main = document.querySelector("main");
+const main = document.querySelector("body");
 
 // To get highlighted word from the UI
 const getHighlightedWord = async (e) => {

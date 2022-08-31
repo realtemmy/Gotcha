@@ -1,0 +1,28 @@
+{
+    "manifest_version": 2,
+    "name": "Gotcha",
+    "version" : "1.0",
+    "description" : "To look up definitions easily",
+    "icons":{
+        "16":"./img/icon-16.png",
+        "48":"./img/icon-16.png",
+        "128":"./img/icon-16.png"
+    },
+    "browser_action":{
+        "default_icon":{
+            "16":"./img/icon-16.png",
+            "48":"./img/icon-16.png",
+            "128":"./img/icon-16.png"
+        },
+        "default_popup": "./index.html"
+    },
+    "content_scripts": [
+        {
+            "matches":["<all_urls>"],
+            "js":["./libraries/content.js"]
+        }
+    ],
+    "background":{
+        "scripts": ["./libraries/background.js"]
+    }
+}
