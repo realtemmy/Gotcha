@@ -4,11 +4,10 @@ document.addEventListener('DOMContentLoaded', async function () {
     const success = document.querySelector('.wrapper');
     const error = document.querySelector(".not-found");
 
-    // success.innerHTML = '';
-
     let bgPage = chrome.extension.getBackgroundPage();
     let wordData = bgPage.userMessage
 
+    console.log(wordData);
 
     // Error display on the UI
     const errorUiDisplay = (selectedText) => {
@@ -210,10 +209,8 @@ document.addEventListener('DOMContentLoaded', async function () {
     }
 
     document.querySelector(".play-pron").addEventListener('click', (e) => {
-        console.log('hello world', e.target);
-
         let audioUrl = e.target.getAttribute('data-audio-url')
-        console.log("audio url ", audioUrl);
+        // console.log("audio url ", audioUrl);
         var audio = new Audio(audioUrl);
         audio.play();
     })

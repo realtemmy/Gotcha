@@ -293,3 +293,7 @@ sup {
 .pop__bottom a:hover{
     color: #ff00c7;
 }
+
+.hide{
+    display: none;
+}
