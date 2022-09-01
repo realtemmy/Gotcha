@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "name": "Gotcha",
     "version" : "1.0",
-    "description" : "To look up definitions easily",
+    "description" : "To look up definitions of a word easily",
     "icons":{
         "16":"./img/icon-16.png",
         "48":"./img/icon-16.png",
@@ -19,7 +19,8 @@
     "content_scripts": [
         {
             "matches":["<all_urls>"],
-            "js":["./libraries/content.js"]
+            "js":["./libraries/content.js"],
+            "css":["./css/highlight.css"]
         }
     ],
     "background":{
