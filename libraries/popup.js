@@ -1,210 +1,254 @@
 import findMeaning from "../Application/dataAccess.js";
 
-const success = document.querySelector('.wrapper');
-const error = document.querySelector(".not-found");
+document.addEventListener('DOMContentLoaded', async function () {
+    const success = document.querySelector('.wrapper');
+    const error = document.querySelector(".not-found");
+    // const readMore_btn = document.querySelector(".more-btn");
+    // const playBtn = document.querySelector(".play-pron");
 
-let bgPage = chrome.extension.getBackgroundPage();
-let wordData = bgPage.userMessage
+    success.innerHTML = '';
 
-// Error display on the UI
-const errorUiDisplay = (selectedText) => {
-    //   const main = document.querySelector("main");
-      error.innerHTML = `
-      <div class="pop">
-        <span class="pop__close" title="button">
-                <i class="bi bi-x-lg"></i>
-        </span>
-        <div class="not-found">
-                <h1 class="not-found__word">Oops!!!</h1>
-                <div class="not-found__img">
-                    <img src="./img/93134-not-found.gif" alt="404 not found gif">
-                </div>
-                <p class="not-found__title">Couldn't find the word "${selectedText}"</p>
-            </div>
-      </div>
+    let bgPage = chrome.extension.getBackgroundPage();
+    let wordData = bgPage.userMessage
+
+    // document.querySelector("body").addEventListener('click', myAlert);
+
+    // Error display on the UI
+    const errorUiDisplay = (selectedText) => {
+        //   const main = document.querySelector("main");
+        toggleModal(error)
+        toggleModal(success)
+        error.innerHTML = `
+    <h1 class="not-found__word">Oops!!!</h1>
+    <div class="not-found__img">
+        <img src="./img/93134-not-found.gif" alt="404 not found gif">
+    </div>
+    <p class="not-found__title">Couldn't find the definition for "${selectedText}"</p>
       `;
-    
-};
 
-let list_stuffs = (list) => {
-    let my_text = ''
-    let length = 0
-    while (length <= list.length) {
-        if (length === 2) {
-            break
+    };
+
+
+
+    const SynonymsAndAntonyms = (list) => {
+        let my_text = ''
+        if (list.length <= 0) return my_text;
+
+        let count = 0
+        while (count <= list.length - 1) {
+            if (count === 2) {
+                my_text += `${list[count]}`
+                break
+            }
+
+            if (count === list.length - 1) {
+                my_text += `${list[count]}`
+                count++;
+                continue;
+            }
+
+            my_text += `${list[count]}, `
+
+            count++
+
         }
-        // if (length === list.length - 1)
-        // my_text += `${list[length]}`
-        // else
-        // my_text += `${list[length]}, `
-        my_text += `${list[length]}, `
-        length++
 
+        return my_text;
     }
-    return my_text;
-}
+    const setDefinitionsStructure = (definitions) => {
+        let definition_text = "";
+        console.log(definitions);
+        if (definitions.length <= 0) return definition_text;
 
-// Meaning of word display
-const successUiDisplay = (word, phonetic,defOne, defTwo) => {
-    //   const main = document.querySelector("main");
-   
-    let defTwoSynonyms = 'Synonyms: '
-        defTwoSynonyms += list_stuffs(defTwo.synonyms)
-    let defTwoAntonyms = 'Antonyms: '
-    defTwoAntonyms += list_stuffs(defTwo.antonyms)
-    let defOneSynonyms = 'Synonyms: '
-    defOneSynonyms += list_stuffs(defOne.synonyms)
-    let defOneAntonyms = 'Antonyms: '
-    defOneAntonyms += list_stuffs(defOne.antonyms)   
-    
-    console.log('success');
-      success.innerHTML = `
-      <div class="pop">
-        <span class="pop__close" title="button">
-                <i class="bi bi-x-lg"></i>
-            </span>
-    
-            <div class="wrapper">
-                <h1 class="pop__title">
-                    ${word}
-                    <span class="pop__icon pop__icon--disabled" style="cursor: pointer;">
-                        <i class="bi bi-heart"></i>
-                    </span>
-                </h1>
-    
-                <section class="pop__prs">
-                    <div class="col">
-                        <span class="first-slah">/</span>
-                        <span class="pr">'${phonetic}'</span>
-                        <span class="last-slash">/</span>
-                    </div>
-    
-    
-                    <a href="#" class="play-pron">
-                        <i class="bi bi-volume-up"></i>
-                    </a>
-                </section>
-    
-                <section class="pop__body">
-    
-    
-                    <article class="desc">
-                        <ul class="desc__main">
-                            <li>
-                                <p>${defOne.definition}<sup><span
-                                            class="pos">${defOne.partofspeech}</span></sup></p>
-                            </li>
-                            <q class="desc__example">small household articles</q><br />
-                            <i class="alt">${defOneSynonyms}</i>
-                            <br/ >
-                            <i class="alt">${defOneAntonyms}</i>
-                        </ul>
-                    </article>
-    
-    
-                    <article class="desc">
-                        <ul class="desc__main">
-                            <li>
-                                <p>${defTwo.definition}<sup><span class="pos">${defTwo.partofspeech}</span></sup></p>
-                            </li>
-                            <q class="desc__example">small household articles</q><br />
-                            <i class="alt">${defTwoSynonyms}</i>
-                            <br/>
-                            <i class="alt">${defTwoAntonyms}</i>
-                        </ul>
-                    </article>
-    
-    
-                </section>
-    
-                <section class="pop__bottom">
-                    <a href="#" id="redirect" style="display: flex; align-items:center; gap: 1.6rem; font-size: 1.6rem;">
-                        <span>Read more</span>
-                        <span class="redirect__icon">
-                            <i class="bi bi-box-arrow-up-right"></i>
-                        </span>
-                    </a>
-                </section>
+        let count = 0
+        while (count <= definitions.length - 1) {
+            if (count === 2) break; //break the loop when we get to the 3rd index
+
+            let exampleText = (definitions[count].example === undefined || definitions[count].example === "undefined") ? '' : definitions[count].example
+            let synonyms = '<em class="alt__color">Synonyms:</em> ';
+            let antonyms = '<em class="alt__color">Antonyms:</em> ';
+            synonyms += SynonymsAndAntonyms(definitions[count].synonyms)
+            antonyms += SynonymsAndAntonyms(definitions[count].antonyms)
+            definition_text +=
+                `
+            <article class="desc">
+                <ul class="desc__main">
+                    <li>
+                        <p>${definitions[count].definition}
+                        <sup><span class="pos">${definitions[count].partofspeech}</span></sup></p>
+                    </li>
+                    <q class="desc__example">${exampleText}</q><br />
+                    <i class="alt">${synonyms}</i>
+                    <br/ >
+                    <i class="alt">${antonyms}</i>
+                </ul>
+            </article>
+        `
+
+            count++
+        }
+
+        return definition_text;
+    }
+
+    const phoneticRepresentation = (phonetic, audio) => {
+        let response_html = ""
+        let phonetic_text = ""
+        let audio_file = ""
+
+        if (phonetic !== "undefined") {
+            phonetic_text +=
+                `   <div class="col">
+                <span class="pr">'${phonetic}'</span>
             </div>
-      </div>
+        `
+        }
+
+        if (audio) {
+            audio_file +=
+                `
+            <a href="#" class="play-pron pop__icon" data-audio-url="${audio}">
+                <i class="bi bi-volume-up play-pron" data-audio-url="${audio}"></i>
+            </a>
+        `
+        }
+
+        response_html +=
+            `
+                ${phonetic_text}
+                ${audio_file}
+            `
+
+        return response_html;
+    }
+
+    // Meaning of word display
+    const successUiDisplay = (word, phonetic, audio, definitions) => {
+
+        let definition = setDefinitionsStructure(definitions)
+        phonetic = phoneticRepresentation(phonetic, audio)
+
+        success.innerHTML = `
+    <div class="wrapper">
+        <h1 class="pop__title">
+            ${word}
+            <span class="pop__icon pop__icon--disabled" style="cursor: pointer;">
+                <i class="bi bi-heart"></i>
+            </span>
+        </h1>
+        <section class="pop__prs">
+            ${phonetic}
+        </section>
+        <section class="pop__body">
+            ${definition}
+        </section>
+        <section class="pop__bottom">
+            <a href="#" class="more-btn" id="redirect" style="display: flex; align-items:center; gap: 1.6rem; font-size: 1.6rem;">
+                <span>Read more</span>
+                <span class="redirect__icon">
+                    <i class="bi bi-box-arrow-up-right"></i>
+                </span>
+            </a>
+        </section>
+    </div>
       `;
     };
-    
+
     // Close meaning of word pop up
-    const closeModalPopUp = () => {
-      const pop = document.querySelector(".pop");
-      pop.classList.toggle("hide");
+    const closeModalPopUp = (e) => {
+        console.log(e.target, "Close me");
+        const pop = document.querySelector(".pop");
+        pop.classList.toggle("hide");
     };
+
+    // const toggleDisplay = ()=>{
+    //     success.classList.toggle('hide')
+    //     error.classList.toggle('hide')
+    // }
+
+
+    const toggleModal = (modal) => {
+        modal.classList.toggle('hide');
+    }
+
     const closeBtn = document.querySelector(".pop__close");
     closeBtn.addEventListener("click", closeModalPopUp);
-    
+
     // To get the audio meaning word searched for
-    const playAudio = (audioUrl) => {
-      const audioEl = document.createElement("audio");
-      audioEl.id = "audio";
-      audioEl.src = audioUrl;
-      document.body.appendChild(audioEl)
-      audioEl.play();
-    // let audioSrc = document.querySelector(".audio-src").getAttribute('src')
-    // let audio = new Audio();
-    // audio.src = audioSrc
+    const playAudio = (e) => {
+        console.log('hello world', e.target);
+
+        let audioUrl = e.target.getAttribute('data-audio-url')
+        console.log("audio url ", audioUrl);
+        // const audioEl = document.createElement("audio");
+        // audioEl.id = "audio";
+        // audioEl.src = audioUrl;
+        // document.body.appendChild(audioEl)
+        // audioEl.play();
+        // let audioSrc = document.querySelector(".audio-src").getAttribute('src')
+        var audio = new Audio(audioUrl);
+        audio.play();
 
     };
-    
-    const playBtn = document.querySelector(".play-pron");
-    playBtn.addEventListener("click", playAudio);
-    
-    const getClickPosition = (e) =>{
-      const xPosition = (e.clientX - (main.offsetWidth / 2) * 2.25)
-      const yPosition = (e.clientY - (main.offsetHeight / 2) * 3.3)
-    
-      const translateValue =
-        "translate(" + xPosition + "px, " + yPosition + "px)";
-      success.style.transform = translateValue;
-    
-      console.log(translateValue);
-    
+
+
+
+    const getClickPosition = (e) => {
+        const xPosition = (e.clientX - (main.offsetWidth / 2) * 2.25)
+        const yPosition = (e.clientY - (main.offsetHeight / 2) * 3.3)
+
+        const translateValue =
+            "translate(" + xPosition + "px, " + yPosition + "px)";
+        success.style.transform = translateValue;
+
+        console.log(translateValue);
+
     }
-    
-    
-    document.body.addEventListener('dblclick', getClickPosition)
-    
+
+
+
     // display position on the UI
-    
+
     // Destructure information coming from the API
     const destructuredData = (response, selectedText) => {
-      const { hasError, errorMessage, result } = response.response;
+        const { hasError, errorMessage, result } = response.response;
 
-      console.log(response)
+        console.log(response)
 
-      console.log('destructured 1')
-    
-    //   if (!result) {
-    //     errorUiDisplay(selectedText);
-    //     return;
-    //   }
-    console.log(result);
-      const { word, phonetic, audio, definition } = result;
-    //   playAudio(audio);
-      console.log(audio);
-      const defOne = definition[0];
-      const defTwo = definition[1];
-    console.log(defOne);
-    console.log(defTwo);
-      successUiDisplay(word, phonetic, defOne, defTwo);
-    
-        // return audio;
+        if (hasError) {
+            errorUiDisplay(selectedText);
+            return;
+        }
+        console.log(result);
+        const { word, phonetic, audio, definition } = result;
 
-    console.log('destructured 2')
+        successUiDisplay(word, phonetic, audio, definition);
     };
 
-if (wordData.isWord === false) {
-    errorUiDisplay(wordData.word)
-    // return
-}
 
+    // document.body.addEventListener('dblclick', getClickPosition)
 
-let response = await findMeaning(wordData.word)
-destructuredData(response, wordData.word)
+    if (wordData.isWord === false) {
+        errorUiDisplay(wordData.word)
+    } else {
+        let response = await findMeaning(wordData.word)
+        destructuredData(response, wordData.word)
 
-console.log(response);
+        console.log(response);
+
+    }
+
+    document.querySelector(".play-pron").addEventListener('click', (e) => {
+        console.log('hello world', e.target);
+
+        let audioUrl = e.target.getAttribute('data-audio-url')
+        console.log("audio url ", audioUrl);
+        var audio = new Audio(audioUrl);
+        audio.play();
+    })
+
+    document.querySelector(".more-btn").addEventListener('click', ()=>{
+        const isConfirmed = confirm('redirecting...');
+        if(isConfirmed)window.open(`http://google.com/search?q=what is the meaning of ${wordData.word}`, '_blank');
+    })
+});

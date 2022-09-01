@@ -3,9 +3,7 @@ const getHighlightedWord = async (e) => {
     
     let message;
 
-
-    if (selectedText.length == 0) message = { isWord: false, word: '' }
-    else message = { isWord: true , word: selectedText }
+    message = (selectedText.length == 0) ? { isWord: false, word: '' } : { isWord: true , word: selectedText }
 
     console.log(message);
         
@@ -19,6 +17,7 @@ function handleSelection() {
     let selectedTxt = window.getSelection().toString().trim();
     return selectedTxt;
 }
+
 
 const body = document.querySelector("body");
 body.addEventListener("dblclick", getHighlightedWord);
