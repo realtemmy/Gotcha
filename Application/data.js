@@ -40,7 +40,7 @@ class DictionaryApi {
                 synonyms: data.synonyms,
                 antonyms: data.antonyms,
                 definition: data.definitions[0].definition,
-                example: data.definitions[0].definition
+                example: data.definitions[0].example
             }
         })
         

@@ -3,15 +3,12 @@ import findMeaning from "../Application/dataAccess.js";
 document.addEventListener('DOMContentLoaded', async function () {
     const success = document.querySelector('.wrapper');
     const error = document.querySelector(".not-found");
-    // const readMore_btn = document.querySelector(".more-btn");
-    // const playBtn = document.querySelector(".play-pron");
 
-    success.innerHTML = '';
+    // success.innerHTML = '';
 
     let bgPage = chrome.extension.getBackgroundPage();
     let wordData = bgPage.userMessage
 
-    // document.querySelector("body").addEventListener('click', myAlert);
 
     // Error display on the UI
     const errorUiDisplay = (selectedText) => {
@@ -55,6 +52,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
         return my_text;
     }
+
     const setDefinitionsStructure = (definitions) => {
         let definition_text = "";
         console.log(definitions);
@@ -154,42 +152,15 @@ document.addEventListener('DOMContentLoaded', async function () {
       `;
     };
 
-    // Close meaning of word pop up
-    const closeModalPopUp = (e) => {
-        console.log(e.target, "Close me");
-        const pop = document.querySelector(".pop");
-        pop.classList.toggle("hide");
-    };
-
-    // const toggleDisplay = ()=>{
-    //     success.classList.toggle('hide')
-    //     error.classList.toggle('hide')
-    // }
-
-
     const toggleModal = (modal) => {
         modal.classList.toggle('hide');
     }
 
     const closeBtn = document.querySelector(".pop__close");
-    closeBtn.addEventListener("click", closeModalPopUp);
+    closeBtn.addEventListener("click", (e)=>{
+        window.close();
+    });
 
-    // To get the audio meaning word searched for
-    const playAudio = (e) => {
-        console.log('hello world', e.target);
-
-        let audioUrl = e.target.getAttribute('data-audio-url')
-        console.log("audio url ", audioUrl);
-        // const audioEl = document.createElement("audio");
-        // audioEl.id = "audio";
-        // audioEl.src = audioUrl;
-        // document.body.appendChild(audioEl)
-        // audioEl.play();
-        // let audioSrc = document.querySelector(".audio-src").getAttribute('src')
-        var audio = new Audio(audioUrl);
-        audio.play();
-
-    };
 
 
 

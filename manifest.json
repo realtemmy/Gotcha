@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "name": "Gotcha",
     "version" : "1.0",
-    "description" : "To look up definitions of a word easily",
+    "description" : "Gotcha is a browser extension that helps users do a quick lookup for the meaning of any word they come across while surfing the internet.",
     "icons":{
         "16":"./img/icon-16.png",
         "48":"./img/icon-16.png",
@@ -14,7 +14,8 @@
             "48":"./img/icon-16.png",
             "128":"./img/icon-16.png"
         },
-        "default_popup": "./index.html"
+        "default_popup": "./index.html",
+        "default_title": "Click here to view the meaning of the highlighted word"
     },
     "content_scripts": [
         {
